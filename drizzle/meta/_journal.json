@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1720509294351,
+      "tag": "0000_left_ogun",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1720512249256,
+      "tag": "0001_cheerful_tusk",
+      "breakpoints": true
+    }
+  ]
+}
