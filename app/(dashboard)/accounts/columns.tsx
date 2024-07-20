@@ -1,12 +1,13 @@
 "use client";
 
 import { InferResponseType } from "hono";
-import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 import { client } from "@/lib/hono";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Actions } from "./actions";
 
 // This type is used to define the shape of our data.
 // utilizing hono account's get api types. but it could return both error and success to select only the success part pass success code
@@ -51,5 +52,9 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       );
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <Actions id={row.original.id} />,
   },
 ];
