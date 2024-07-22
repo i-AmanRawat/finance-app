@@ -69,6 +69,7 @@ const app = new Hono()
     zValidator(
       "json",
       insertAccountSchema.pick({
+        //name is something we want user to pass that's y pick opposite omit()
         name: true,
       })
     ),
