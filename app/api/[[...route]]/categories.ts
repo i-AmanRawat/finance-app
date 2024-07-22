@@ -7,7 +7,7 @@ import { createId } from "@paralleldrive/cuid2";
 
 //The RPC feature allows sharing of the API specifications between the server and the client.
 import { db } from "@/db/drizzle";
-import { accounts, insertAccountSchema } from "@/db/schema";
+import { categories, insertCategorySchema } from "@/db/schema";
 
 const app = new Hono()
   .get("/", clerkMiddleware(), async (c) => {
@@ -19,11 +19,11 @@ const app = new Hono()
 
     const data = await db
       .select({
-        id: accounts.id,
-        name: accounts.name,
+        id: categories.id,
+        name: categories.name,
       })
-      .from(accounts)
-      .where(eq(accounts.userId, user.userId)); //verifying both are equal or not
+      .from(categories)
+      .where(eq(categories.userId, user.userId)); //verifying both are equal or not
 
     return c.json({ data });
   })
@@ -50,11 +50,11 @@ const app = new Hono()
 
       const [data] = await db
         .select({
-          id: accounts.id,
-          name: accounts.name,
+          id: categories.id,
+          name: categories.name,
         })
-        .from(accounts)
-        .where(and(eq(accounts.userId, user.userId), eq(accounts.id, id)));
+        .from(categories)
+        .where(and(eq(categories.userId, user.userId), eq(categories.id, id)));
 
       if (!data) {
         return c.json({ error: "Not found" }, 400);
@@ -68,7 +68,7 @@ const app = new Hono()
     clerkMiddleware(),
     zValidator(
       "json",
-      insertAccountSchema.pick({
+      insertCategorySchema.pick({
         name: true,
       })
     ),
@@ -81,7 +81,7 @@ const app = new Hono()
       }
 
       const [data] = await db
-        .insert(accounts)
+        .insert(categories)
         .values({
           id: createId(),
           userId: user.userId,
@@ -110,15 +110,15 @@ const app = new Hono()
       }
 
       const data = await db
-        .delete(accounts)
+        .delete(categories)
         .where(
           and(
-            eq(accounts.userId, user.userId),
-            inArray(accounts.id, values.ids)
+            eq(categories.userId, user.userId),
+            inArray(categories.id, values.ids)
           )
         )
         .returning({
-          id: accounts.id,
+          id: categories.id,
         });
 
       return c.json({
@@ -137,7 +137,7 @@ const app = new Hono()
     ),
     zValidator(
       "json",
-      insertAccountSchema.pick({
+      insertCategorySchema.pick({
         name: true,
       })
     ),
@@ -154,9 +154,9 @@ const app = new Hono()
       }
 
       const [data] = await db
-        .update(accounts)
+        .update(categories)
         .set(values)
-        .where(and(eq(accounts.userId, user.userId), eq(accounts.id, id)))
+        .where(and(eq(categories.userId, user.userId), eq(categories.id, id)))
         .returning();
 
       if (!data) {
@@ -189,10 +189,10 @@ const app = new Hono()
       }
 
       const [data] = await db
-        .delete(accounts)
-        .where(and(eq(accounts.userId, user.userId), eq(accounts.id, id)))
+        .delete(categories)
+        .where(and(eq(categories.userId, user.userId), eq(categories.id, id)))
         .returning({
-          id: accounts.id,
+          id: categories.id,
         });
 
       if (!data) {

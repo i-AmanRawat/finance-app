@@ -15,6 +15,13 @@
       "when": 1720512249256,
       "tag": "0001_cheerful_tusk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1721462645172,
+      "tag": "0002_volatile_arachne",
+      "breakpoints": true
     }
   ]
 }
