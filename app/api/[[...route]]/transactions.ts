@@ -1,6 +1,6 @@
 import z from "zod";
 import { Hono } from "hono";
-import { formatDistance, parse, subDays } from "date-fns";
+import { parse, subDays } from "date-fns";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { eq, and, inArray, gte, lte, sql } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
@@ -14,6 +14,7 @@ import {
   categories,
   accounts,
 } from "@/db/schema";
+import { error } from "console";
 
 const app = new Hono()
   .get(
@@ -142,6 +143,38 @@ const app = new Hono()
     }
   )
   .post(
+    "/bulk-create",
+    clerkMiddleware(),
+    zValidator(
+      "json",
+      z.array(
+        insertTransactionSchema.omit({
+          id: true,
+        })
+      )
+    ),
+    async (c) => {
+      const user = getAuth(c);
+      const values = c.req.valid("json");
+
+      if (!user?.userId) {
+        return c.json({ error: "unauthorized" }, 401);
+      }
+
+      const data = await db
+        .insert(transactions)
+        .values(
+          values.map((value) => ({
+            id: createId(),
+            ...value,
+          }))
+        )
+        .returning();
+
+      return c.json({ data });
+    }
+  )
+  .post(
     "/bulk-delete",
     clerkMiddleware(),
     zValidator(
@@ -175,7 +208,9 @@ const app = new Hono()
       const data = await db
         .with(transactionsToDelete)
         .delete(transactions)
-        .where(eq(transactions.id, sql`select id from ${transactionsToDelete}`))
+        .where(
+          inArray(transactions.id, sql`select id from ${transactionsToDelete}`)
+        )
         .returning({
           id: transactions.id,
         });
@@ -287,3 +322,5 @@ const app = new Hono()
   );
 
 export default app;
+
+//The reason it is inArray is because the db returns rows and not a single value (even for one row).
