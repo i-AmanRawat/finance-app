@@ -45,7 +45,7 @@ export const NewTransactionSheet = () => {
     useCreateAccount();
   const { data: accounts, isLoading: getAccIsLoading } = useGetAccounts();
   const onCreateAccount = (name: string) => createAccount({ name });
-  const accountOptions = (categories ?? []).map((account) => ({
+  const accountOptions = (accounts ?? []).map((account) => ({
     //double ?? -> nullish coalescing operator.
     label: account.name,
     value: account.id,
