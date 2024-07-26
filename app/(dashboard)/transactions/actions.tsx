@@ -2,8 +2,8 @@
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
+import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
+import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
 
 import { useConfirm } from "@/hooks/use-confirm";
 import { Button } from "@/components/ui/button";
@@ -20,19 +20,20 @@ type Props = {
 };
 
 export const Actions = ({ id }: Props) => {
-  const { onOpen } = useOpenAccount();
+  const { onOpen } = useOpenTransaction();
 
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure?",
     "You are about to delete this transaction."
   );
-  const { mutate: deleteAccount, isPending: deleteIsPending } =
-    useDeleteAccount(id);
+  const { mutate: deleteTransaction, isPending: deleteTransIsPending } =
+    useDeleteTransaction(id);
 
   const onDelete = async () => {
     const ok = await confirm();
+    console.log("ok: ", ok);
     if (ok) {
-      deleteAccount();
+      deleteTransaction();
     }
   };
 
@@ -51,7 +52,7 @@ export const Actions = ({ id }: Props) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           {/* <DropdownMenuSeparator /> */}
           <DropdownMenuItem
-            disabled={deleteIsPending}
+            disabled={deleteTransIsPending}
             onClick={() => {
               onOpen(id);
             }}
@@ -59,7 +60,7 @@ export const Actions = ({ id }: Props) => {
             <Edit className="size-4 mr-2" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem disabled={deleteIsPending} onClick={onDelete}>
+          <DropdownMenuItem disabled={deleteTransIsPending} onClick={onDelete}>
             <Trash className="size-4 mr-2" />
             Delete
           </DropdownMenuItem>

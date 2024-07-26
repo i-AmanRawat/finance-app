@@ -3,7 +3,7 @@
 import { Loader2, Plus } from "lucide-react";
 
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
-import { useGetTransaction } from "@/features/transactions/api/use-get-transaction";
+import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ const TransactionsPage = () => {
   const { onOpen } = useNewTransaction();
   const { mutate: bulkDeleteTransactions, isPending } =
     useBulkDeleteTransactions();
-  const { data, isLoading } = useGetTransaction();
+  const { data, isLoading } = useGetTransactions();
   const transactions = data || [];
   const isDisabled = isPending || isLoading; //wheater bulk-deleting or fetching accounts if res is pending keep it disabled
 
@@ -55,7 +55,7 @@ const TransactionsPage = () => {
           <DataTable
             columns={columns}
             data={transactions}
-            filterKey="name"
+            filterKey="payee"
             onDelete={(row) => {
               const ids = row.map((r) => r.original.id);
               bulkDeleteTransactions({ ids });

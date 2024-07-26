@@ -19,3 +19,11 @@ export function convertAmountToMiliUnits(amount: number) {
 export function convertAmountFromMiliUnits(amount: number) {
   return amount / 1000;
 }
+
+export function formatCurrency(value: number) {
+  return Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(value);
+}

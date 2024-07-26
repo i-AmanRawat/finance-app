@@ -28,6 +28,7 @@ export const useEditCategory = (id?: string) => {
       //as the new acc is created fetch acc for fresh data
       queryClient.invalidateQueries({ queryKey: ["category", { id }] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
 
     onError: () => {

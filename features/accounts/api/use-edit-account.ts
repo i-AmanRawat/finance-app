@@ -28,6 +28,7 @@ export const useEditAccount = (id?: string) => {
       //as the new acc is created fetch acc for fresh data
       queryClient.invalidateQueries({ queryKey: ["account", { id }] });
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
 
     onError: () => {

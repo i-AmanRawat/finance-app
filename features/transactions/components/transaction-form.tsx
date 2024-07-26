@@ -76,7 +76,6 @@ export const TransactionForm = ({
       ...values,
       amount: amountInMiliUnits,
     });
-    console.log(values);
   };
 
   const handleDelete = () => {
@@ -101,7 +100,7 @@ export const TransactionForm = ({
                   disabled={disabled}
                 />
               </FormControl>
-              <FormDescription>Select date.</FormDescription>
+              <FormDescription>Select date</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -143,7 +142,7 @@ export const TransactionForm = ({
                   disabled={disabled}
                 />
               </FormControl>
-              <FormDescription>Transaction category.</FormDescription>
+              <FormDescription>Transaction category</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -161,7 +160,7 @@ export const TransactionForm = ({
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Paid to.</FormDescription>
+              <FormDescription>Paid to</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -199,7 +198,7 @@ export const TransactionForm = ({
                   placeholder="Add notes (optional)"
                 />
               </FormControl>
-              <FormDescription>This is your account name.</FormDescription>
+              <FormDescription>This is your account name</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -211,7 +210,7 @@ export const TransactionForm = ({
           <Button
             type="button" //need to specify it as typeof button otherwise it will count as submit button as it is declared inside form tag
             className="w-full"
-            onClick={onDelete}
+            onClick={handleDelete}
             variant={"outline"}
             disabled={disabled}
           >

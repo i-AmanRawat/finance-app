@@ -14,7 +14,6 @@ import {
   categories,
   accounts,
 } from "@/db/schema";
-import { error } from "console";
 
 const app = new Hono()
   .get(
@@ -30,11 +29,13 @@ const app = new Hono()
     clerkMiddleware(),
     async (c) => {
       const user = getAuth(c);
+      // const user = { userId: "user_2isjoqzIRunuwxd0ZMQ21DhQc2k" };
       const { from, to, accountId } = c.req.valid("query");
 
       if (!user?.userId) {
         return c.json({ error: "unauthorized" }, 401);
       }
+      console.log("userId: ", user.userId);
 
       const defaultTo = new Date(); //today
       const defaultFrom = subDays(defaultTo, 30); //from 30 days before
@@ -125,6 +126,7 @@ const app = new Hono()
     ),
     async (c) => {
       const user = getAuth(c);
+      // const user = { userId: "user_2isjoqzIRunuwxd0ZMQ21DhQc2k" };
       const values = c.req.valid("json");
 
       if (!user?.userId) {
@@ -237,6 +239,7 @@ const app = new Hono()
     ),
     async (c) => {
       const user = getAuth(c);
+      // const user = { userId: "user_2isjoqzIRunuwxd0ZMQ21DhQc2k" };
       const { id } = c.req.valid("param");
       const values = c.req.valid("json");
 
@@ -284,6 +287,7 @@ const app = new Hono()
     ),
     async (c) => {
       const user = getAuth(c);
+      // const user = { userId: "user_2isjoqzIRunuwxd0ZMQ21DhQc2k" };
       const { id } = c.req.valid("param");
 
       if (!id) {
